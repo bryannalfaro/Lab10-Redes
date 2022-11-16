@@ -6,11 +6,11 @@ import json
 producer = KafkaProducer(bootstrap_servers='147.182.206.35:9092')
 
 def temperature_sensor_simulation():
-        temperature = numpy.random.uniform(0, 100)
+        temperature = round(float(numpy.random.uniform(0, 100.00)),2)
         return temperature
 
 def relative_humidity_sensor_simulation():
-        relative_humidity = numpy.random.uniform(0, 100)
+        relative_humidity = int(numpy.random.uniform(0, 100))
         return relative_humidity
 
 def wind_direction_simulation():
@@ -35,7 +35,8 @@ while True:
         #Console print json data
         print(json_data)
 
+
         #Send to kafka
         producer.send('19372', json_data.encode('utf-8'))
 
-        time.sleep(5)
+        time.sleep(3)

@@ -22,9 +22,6 @@ wind_direction = {
         'NW': 0
 }
 
-
-
-
 #Consumer while
 for message in consumer:
         #Load json
@@ -41,10 +38,16 @@ for message in consumer:
         wind_direction[json_data['wind_direction']] += 1
 
 
-
-
         #Plot in 3 different axis with animation
         fig, (ax1, ax2, ax3) = plt.subplots(3, 1)
+
+        #Increase size of figure
+        fig.set_size_inches(10, 10)
+        #Add labels
+        ax1.set_title('Temperature')
+        ax2.set_title('Relative Humidity')
+        ax3.set_title('Wind Direction')
+
         ax1.plot(temperature)
         ax2.plot(relative_humidity)
         ax3.bar(wind_direction.keys(), wind_direction.values())
@@ -52,4 +55,4 @@ for message in consumer:
 
 
         #Sleep
-        time.sleep(5)
+        time.sleep(3)
