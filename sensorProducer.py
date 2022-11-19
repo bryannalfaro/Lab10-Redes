@@ -24,7 +24,7 @@ def wind_direction_simulation():
 def encode_data(temperature, relative_humidity, wind_direction):
         print("humedad",len("{0:b}".format(relative_humidity)))
         print("temperatura",len("{0:b}".format(int(temperature*100))))
-        print()
+        print("")
         #print("direccion",len("{0:b}".format(int(wind_direction,2))))
 
         data = {
