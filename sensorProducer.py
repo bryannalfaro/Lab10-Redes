@@ -2,6 +2,7 @@ from kafka import KafkaProducer
 import numpy
 import time
 import json
+import sys
 
 producer = KafkaProducer(bootstrap_servers='147.182.206.35:9092')
 
@@ -19,21 +20,34 @@ def wind_direction_simulation():
 
         return wind_direction
 
+
+def encode_data(temperature, relative_humidity, wind_direction):
+        print("humedad",len("{0:b}".format(relative_humidity)))
+        print("temperatura",len("{0:b}".format(int(temperature*100))))
+        print()
+        #print("direccion",len("{0:b}".format(int(wind_direction,2))))
+
+        data = {
+                'temperature': int(temperature)*100,
+                'relative_humidity': relative_humidity,
+                'wind_direction': wind_direction
+        }
+        return data
+
 #Producer while
 while True:
         temperature = temperature_sensor_simulation()
         relative_humidity = relative_humidity_sensor_simulation()
         wind_direction = wind_direction_simulation()
 
-        #Armar json
-        json_data = {"temperature":temperature,"relative_humidity": relative_humidity ,
-                "wind_direction": wind_direction}
+        data = encode_data(temperature, relative_humidity, wind_direction)
 
         #Dumps
-        json_data = json.dumps(json_data)
+        json_data = json.dumps(data)
 
         #Console print json data
         print(json_data)
+        print(len(json_data))
 
 
         #Send to kafka
