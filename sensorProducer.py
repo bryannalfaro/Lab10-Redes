@@ -34,7 +34,7 @@ def encode_data(temperature, relative_humidity, wind_direction):
         print("temperatura: ",len("{0:b}".format(int(temperature*100))))
         print("humedad: ",len("{0:b}".format(relative_humidity)))
         print("direccion: ", len(wind_direction.encode('utf-16')) + 1)
-        print("Total: ", len("{0:b}".format(int(temperature*100))) + len("{0:b}".format(relative_humidity)) + len(wind_direction.encode('utf-8') + 1))
+        print("Total: ", len("{0:b}".format(int(temperature*100))) + len("{0:b}".format(relative_humidity)) + (len(wind_direction.encode('utf-8')) + 1))
 
         data = {
                 'temperature': int(temperature*100),
