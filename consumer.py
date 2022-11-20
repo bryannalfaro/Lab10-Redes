@@ -28,10 +28,14 @@ for message in consumer:
         json_data = json.loads(message.value)
 
         #Print json
-        print(json_data)
+        print("Payload: ")
+        print("temperature: ", json_data['temperature']/100)
+        print("relative_humidity: ", json_data['relative_humidity'])
+        print("wind_direction: ", json_data['wind_direction'])
+        print()
 
         #Graph live values
-        temperature.append(json_data['temperature'])
+        temperature.append(json_data['temperature']/100)
         relative_humidity.append(json_data['relative_humidity'])
 
         #increase value of wind_direction with object

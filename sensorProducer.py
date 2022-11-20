@@ -2,7 +2,7 @@ from kafka import KafkaProducer
 import numpy
 import time
 import json
-import sys
+import bitarray
 
 producer = KafkaProducer(bootstrap_servers='147.182.206.35:9092')
 
@@ -20,15 +20,24 @@ def wind_direction_simulation():
 
         return wind_direction
 
+def tobits(s):
+    result = []
+    for c in s:
+        bits = bin(ord(c))[2:]
+        bits = '00000000'[len(bits):] + bits
+        print(bits)
+        result.extend([int(b) for b in bits])
+    return result
 
 def encode_data(temperature, relative_humidity, wind_direction):
-        print("humedad",len("{0:b}".format(relative_humidity)))
-        print("temperatura",len("{0:b}".format(int(temperature*100))))
-        print("")
-        #print("direccion",len("{0:b}".format(int(wind_direction,2))))
+        print("Distribucion de los bits:")
+        print("temperatura: ",len("{0:b}".format(int(temperature*100))))
+        print("humedad: ",len("{0:b}".format(relative_humidity)))
+        print("direccion: ", len(wind_direction.encode('utf-16')) + 1)
+        print("Total: ", len("{0:b}".format(int(temperature*100))) + len("{0:b}".format(relative_humidity)) + len(wind_direction.encode('utf-8') + 1))
 
         data = {
-                'temperature': int(temperature)*100,
+                'temperature': int(temperature*100),
                 'relative_humidity': relative_humidity,
                 'wind_direction': wind_direction
         }
@@ -46,9 +55,9 @@ while True:
         json_data = json.dumps(data)
 
         #Console print json data
+        print()
+        print("Payload:")
         print(json_data)
-        print(len(json_data))
-
 
         #Send to kafka
         producer.send('19372', json_data.encode('utf-8'))
